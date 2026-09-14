@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRISM — Home | Phones, Laptops & Gadgets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="container topbar-inner">
+    <div class="topbar-left">
+      <a href="#">My Orders</a>
+      <a href="#">My Wishlist <span class="wish-count">0</span></a>
+      <a href="#">Trade In / Cash Back</a>
+      <a href="#">Return Policy</a>
+      <a href="#">Pay On Delivery</a>
+    </div>
+    <div class="topbar-right">
+      <a href="https://wa.me/2347046140421" target="_blank"><i class="fa-brands fa-whatsapp"></i> +234 704 614 0421</a>
+      <a href="mailto:israelsimiloluwa70@gmail.com"><i class="fa-solid fa-envelope"></i> israelsimiloluwa70@gmail.com</a>
+      <span><i class="fa-solid fa-location-dot"></i> Lagos • Abuja • PH</span>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">PRISM</span><span class="logo-dot">.</span>
+      <small>PHONES • LAPTOPS • GADGETS</small>
+    </a>
+    <div class="search-wrap">
+      <div class="search-cat">
+        <select id="searchCat">
+          <option>All Categories</option>
+          <option>Mobile Phones</option>
+          <option>Computers</option>
+          <option>Accessories</option>
+        </select>
+      </div>
+      <input type="text" id="searchInput" placeholder="Search for iPhone 17, Samsung Fold, MacBook...">
+      <button class="search-btn" id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+    <div class="header-actions">
+      <a href="#" class="action">
+        <i class="fa-regular fa-user"></i>
+        <span>Register<br><strong>or Sign in</strong></span>
+      </a>
+      <a href="#" class="action cart-action" id="cartBtn">
+        <div class="cart-icon"><i class="fa-solid fa-cart-shopping"></i><span class="cart-badge" id="cartCount">0</span></div>
+        <span>Cart<br><strong>₦0.00</strong></span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="main-nav">
+  <div class="container nav-inner">
+    <button class="cat-btn" id="catBtn"><i class="fa-solid fa-bars"></i> Categories <i class="fa-solid fa-chevron-down"></i></button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" class="active" style="background:rgba(255,255,255,0.15)">Home</a>
+      <a href="iphone.html" class="has-drop">Mobile Phones <i class="fa-solid fa-chevron-down"></i></a>
+      <a href="laptops.html" class="has-drop">Computers <i class="fa-solid fa-chevron-down"></i></a>
+      <a href="accessories.html">Accessories</a>
+      <a href="tablets.html">Tablets</a>
+      <a href="samsung.html" class="highlight">Samsung Phones</a>
+      <a href="iphone.html" class="highlight orange">Best iPhone Deals</a>
+    </div>
+    <button class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></button>
+  </div>
+  <div class="mega" id="mega">
+    <div class="container mega-inner">
+      <div class="mega-col">
+        <h4>Mobile Phones</h4>
+        <a href="iphone.html">Apple iPhone (13 → 17 Pro Max)</a>
+        <a href="samsung.html">Samsung Galaxy</a>
+      </div>
+      <div class="mega-col">
+        <h4>Computers</h4>
+        <a href="laptops.html">Apple MacBook</a><a href="laptops.html">Dell XPS</a><a href="laptops.html">HP</a><a href="laptops.html">Lenovo</a>
+      </div>
+      <div class="mega-col">
+        <h4>Accessories</h4>
+        <a href="accessories.html">Anker</a><a href="accessories.html">Power Banks</a><a href="accessories.html">Smart Watches</a><a href="accessories.html">Speakers</a><a href="accessories.html">Earbuds</a>
+      </div>
+      <div class="mega-promo">
+        <p>Pay on Delivery</p>
+        <span>Order now, pay when it arrives in Lagos. 24hrs delivery.</span>
+        <a href="iphone.html">Shop Now →</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- SLIDER - HOME ONLY -->
+<section class="slider" id="slider">
+  <div class="slides" id="slides">
+    <div class="slide active" style="background:linear-gradient(90deg,#1a1d20 0%, #2e3236 45%, #4a4e52 100%)">
+      <div class="slide-text">
+        <span class="slide-badge">NEW ARRIVAL</span>
+        <h2>iPhone 17 Pro Max <span>Cosmic Orange</span></h2>
+        <p>A19 Pro • 6.9" 3000 nits • 10x Periscope • From ₦2,050,000</p>
+        <a href="iphone.html" class="slide-btn">Shop iPhone →</a>
+        <small>Pay on delivery • 24hrs Lagos</small>
+      </div>
+      <div class="slide-img">
+        <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=700&auto=format&fit=crop" alt="iPhone 17 Pro Max" style="background:white; padding:10px; border-radius:18px; object-fit:contain;">
+      </div>
+    </div>
+    <div class="slide" style="background:linear-gradient(90deg,#1e2124 0%, #2f3336 50%, #4a4e52 100%)">
+      <div class="slide-text">
+        <span class="slide-badge dark">GALAXY AI</span>
+        <h2>Samsung Galaxy Z Fold8</h2>
+        <p>Unfold the future. S Pen • 7.6" • From ₦2,460,570</p>
+        <a href="samsung.html" class="slide-btn dark">Explore Samsung →</a>
+        <small>Free Back Cover Gift</small>
+      </div>
+      <div class="slide-img">
+        <img src="https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?q=80&w=700&auto=format&fit=crop" alt="Samsung Fold">
+      </div>
+    </div>
+    <div class="slide" style="background:linear-gradient(90deg,#1a1d20 0%, #343a40 100%)">
+      <div class="slide-text">
+        <span class="slide-badge gold">FOR CREATORS</span>
+        <h2>MacBook Pro 16" M4 Max</h2>
+        <p>The most powerful MacBook ever. 22h battery. From ₦3,228,280</p>
+        <a href="laptops.html" class="slide-btn gold">Shop Laptops →</a>
+        <small>Free Poolee Powerpod on selected laptops</small>
+      </div>
+      <div class="slide-img">
+        <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=700&auto=format&fit=crop" alt="MacBook">
+      </div>
+    </div>
+  </div>
+  <button class="slider-arrow prev" id="prev"><i class="fa-solid fa-chevron-left"></i></button>
+  <button class="slider-arrow next" id="next"><i class="fa-solid fa-chevron-right"></i></button>
+  <div class="slider-dots" id="dots"><span class="active"></span><span></span><span></span></div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trustbar">
+  <div class="container trust-inner">
+    <div><i class="fa-solid fa-truck-fast"></i><strong>Fast Delivery</strong><span>24hrs in Lagos, 3-5 days nationwide</span></div>
+    <div><i class="fa-solid fa-money-bill-wave"></i><strong>Pay on Delivery</strong><span>Inspect before you pay</span></div>
+    <div><i class="fa-solid fa-shield-halved"></i><strong>Genuine Warranty</strong><span>1-year PRISM warranty</span></div>
+    <div><i class="fa-solid fa-rotate"></i><strong>Easy Return</strong><span>7-day return policy</span></div>
+  </div>
+</div>
+
+<!-- CATEGORIES QUICK - HOME -->
+<div class="cat-quick container">
+  <a href="iphone.html"><img src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?q=80&w=200&auto=format&fit=crop" alt=""><span>iPhone</span></a>
+  <a href="samsung.html"><img src="https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?q=80&w=200&auto=format&fit=crop" alt=""><span>Samsung</span></a>
+  <a href="laptops.html"><img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?q=80&w=200&auto=format&fit=crop" alt=""><span>Laptops</span></a>
+  <a href="accessories.html"><img src="https://images.unsplash.com/photo-1525598912003-663126343e1f?q=80&w=200&auto=format&fit=crop" alt=""><span>Accessories</span></a>
+</div>
+
+<!-- HOME FEATURED PREVIEW -->
+<section class="shop-section">
+  <div class="container">
+    <div class="section-head">
+      <h2>Welcome to PRISM <span>— Your Home for iPhone, Samsung & Laptops</span></h2>
+      <a href="iphone.html" class="view-all">Shop All →</a>
+    </div>
+    <div class="home-welcome" style="background:#f8f8f8; border:1px solid #eee; border-radius:16px; padding:28px; display:grid; grid-template-columns:1.2fr 0.8fr; gap:24px; align-items:center;">
+      <div>
+        <h3 style="font-size:26px; letter-spacing:-0.03em;">One Home. Three Icons.</h3>
+        <p style="margin-top:10px; color:#6b7280; line-height:1.6;">PRISM curates only the best — <strong>we curate iphones</strong>, <strong>Samsung Galaxy</strong> and <strong>MacBook / Laptops</strong>. Each header has its own dedicated page. Choose a category above to explore.</p>
+        <div style="display:flex; gap:12px; margin-top:18px; flex-wrap:wrap;">
+          <a href="iphone.html" style="background:#2e3236; color:white; padding:12px 20px; border-radius:999px; font-weight:700; font-size:13px;">Shop iPhones →</a>
+          <a href="samsung.html" style="background:white; border:1px solid #2e3236; padding:12px 20px; border-radius:999px; font-weight:700; font-size:13px;">Shop Samsung →</a>
+          <a href="laptops.html" style="background:white; border:1px solid #2e3236; padding:12px 20px; border-radius:999px; font-weight:700; font-size:13px;">Shop Laptops →</a>
+        </div>
+        <p style="margin-top:14px; font-size:12px; color:#6b7280;"><i class="fa-brands fa-whatsapp" style="color:#25D366;"></i> Need help? <a href="https://wa.me/2347046140421" style="text-decoration:underline;">+234 704 614 0421</a> • <a href="mailto:israelsimiloluwa70@gmail.com" style="text-decoration:underline;">israelsimiloluwa70@gmail.com</a></p>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div style="background:white; border:1px solid #eee; border-radius:12px; padding:12px; text-align:center;"><img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=300&auto=format&fit=crop" style="height:110px; object-fit:contain;"><p style="font-size:12px; font-weight:700; margin-top:8px;">iPhone 17 Pro Max<br><span style="color:#6b7280; font-weight:400;">From ₦2,050,000</span></p></div>
+        <div style="background:white; border:1px solid #eee; border-radius:12px; padding:12px; text-align:center;"><img src="https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?q=80&w=300&auto=format&fit=crop" style="height:110px; object-fit:contain;"><p style="font-size:12px; font-weight:700; margin-top:8px;">Galaxy Z Fold8<br><span style="color:#6b7280; font-weight:400;">From ₦2,460,570</span></p></div>
+        <div style="background:white; border:1px solid #eee; border-radius:12px; padding:12px; text-align:center;"><img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?q=80&w=300&auto=format&fit=crop" style="height:110px; object-fit:contain;"><p style="font-size:12px; font-weight:700; margin-top:8px;">MacBook Pro 16"<br><span style="color:#6b7280; font-weight:400;">From ₦3,228,280</span></p></div>
+        <div style="background:white; border:1px solid #eee; border-radius:12px; padding:12px; text-align:center;"><img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=300&auto=format&fit=crop" style="height:110px; object-fit:contain;"><p style="font-size:12px; font-weight:700; margin-top:8px;">Accessories<br><span style="color:#6b7280; font-weight:400;">From ₦15,000</span></p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOME BANNER -->
+<div class="container" style="margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+  <div style="background:linear-gradient(135deg,#2e3236 0%, #4a4e52 100%); color:white; border-radius:16px; padding:24px; display:flex; justify-content:space-between; align-items:center;">
+    <div><h4 style="font-size:18px;">iPhone 13 → 17 Pro Max</h4><p style="opacity:0.8; font-size:13px; margin-top:4px;">All colors • Pointek prices in ₦</p><a href="iphone.html" style="display:inline-block; margin-top:12px; background:white; color:#2e3236; padding:8px 16px; border-radius:999px; font-weight:700; font-size:13px;">Shop iPhone →</a></div>
+    <img src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?q=80&w=200&auto=format&fit=crop" style="width:100px; height:100px; object-fit:contain; background:white; border-radius:12px; padding:8px;">
+  </div>
+  <div style="background:linear-gradient(135deg,#1e2124 0%, #2f3336 100%); color:white; border-radius:16px; padding:24px; display:flex; justify-content:space-between; align-items:center;">
+    <div><h4 style="font-size:18px;">Samsung Galaxy</h4><p style="opacity:0.8; font-size:13px; margin-top:4px;">Fold8 • S24 Ultra • Watch 9</p><a href="samsung.html" style="display:inline-block; margin-top:12px; background:white; color:#2e3236; padding:8px 16px; border-radius:999px; font-weight:700; font-size:13px;">Shop Samsung →</a></div>
+    <img src="https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?q=80&w=200&auto=format&fit=crop" style="width:100px; height:100px; object-fit:contain; background:white; border-radius:12px; padding:8px;">
+  </div>
+</div>
+
+<!-- ABOUT BRIEF -->
+<section class="about-brief">
+  <div class="container about-grid">
+    <div class="about-img">
+      <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?q=80&w=800&auto=format&fit=crop" alt="PRISM Store">
+      <div class="about-badge"><strong>12,000+</strong><span>Happy Customers</span></div>
+    </div>
+    <div class="about-text">
+      <span class="eyebrow">ABOUT PRISM</span>
+      <h2>Not just a store. <span>A promise.</span></h2>
+      <p>PRISM was built in Lagos for Nigerians who want <strong>only genuine devices</strong> — no clones, no refurbished hidden as new. we curate iphones, <strong>Samsung Galaxy</strong> and <strong>MacBook / Laptops</strong> — each <strong>PRISM-verified, sealed and covered by 1-year warranty.</strong></p>
+      <p>Order today, <strong>pay on delivery</strong>, get it in <strong>24hrs in Lagos</strong> and 3-5 days nationwide. Visit us at Computer Village, Ikeja or chat us directly.</p>
+      <div class="about-stats">
+        <div><strong>4.9/5</strong><span>1,842 reviews</span></div>
+        <div><strong>24hrs</strong><span>Lagos delivery</span></div>
+        <div><strong>1 Year</strong><span>Warranty</span></div>
+      </div>
+      <div class="about-actions">
+        <a href="https://wa.me/2347046140421" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp Us</a>
+        <a href="mailto:israelsimiloluwa70@gmail.com"><i class="fa-solid fa-envelope"></i> israelsimiloluwa70@gmail.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUYER REVIEWS SLIDER -->
+<section class="reviews">
+  <div class="container">
+    <div class="section-head">
+      <h2>Buyer Reviews <span>— What our customers say</span></h2>
+      <div class="reviews-nav"><button id="revPrev"><i class="fa-solid fa-chevron-left"></i></button><button id="revNext"><i class="fa-solid fa-chevron-right"></i></button></div>
+    </div>
+    <div class="reviews-track-wrap">
+      <div class="reviews-track" id="reviewsTrack">
+        <div class="review-card">
+          <div class="stars">★★★★★ <span>5.0</span></div>
+          <p>"Got my iPhone 17 Pro Max sealed, verified. Delivery to Lekki in 18hrs. PRISM is legit!"</p>
+          <div class="reviewer"><img src="https://i.pravatar.cc/100?img=11" alt=""><div><strong>Tolu A.</strong><span>Verified • iPhone 17 Pro Max • Lagos</span></div><i class="fa-solid fa-circle-check" style="color:#25D366; margin-left:auto;"></i></div>
+        </div>
+        <div class="review-card">
+          <div class="stars">★★★★★ <span>5.0</span></div>
+          <p>"Samsung Z Fold8 came with free back cover as promised. Pay on delivery made it stress-free."</p>
+          <div class="reviewer"><img src="https://i.pravatar.cc/100?img=32" alt=""><div><strong>Chinedu O.</strong><span>Verified • Z Fold8 • Abuja</span></div><i class="fa-solid fa-circle-check" style="color:#25D366; margin-left:auto;"></i></div>
+        </div>
+        <div class="review-card">
+          <div class="stars">★★★★★ <span>5.0</span></div>
+          <p>"MacBook Pro 16" M4 Max is a beast. 1-year warranty card included. Will buy again."</p>
+          <div class="reviewer"><img src="https://i.pravatar.cc/100?img=15" alt=""><div><strong>Sarah M.</strong><span>Verified • MacBook Pro • PH</span></div><i class="fa-solid fa-circle-check" style="color:#25D366; margin-left:auto;"></i></div>
+        </div>
+        <div class="review-card">
+          <div class="stars">★★★★☆ <span>4.8</span></div>
+          <p>"Customer service on WhatsApp +2347046140421 replied in 2 minutes. Very professional."</p>
+          <div class="reviewer"><img src="https://i.pravatar.cc/100?img=22" alt=""><div><strong>Israel S.</strong><span>Verified • iPhone 15 • Ikeja</span></div><i class="fa-solid fa-circle-check" style="color:#25D366; margin-left:auto;"></i></div>
+        </div>
+        <div class="review-card">
+          <div class="stars">★★★★★ <span>5.0</span></div>
+          <p>"Best iPhone deals in Lagos. iPhone 13 at ₦650k was sealed with receipt. Highly recommend PRISM."</p>
+          <div class="reviewer"><img src="https://i.pravatar.cc/100?img=8" alt=""><div><strong>Fatimah B.</strong><span>Verified • iPhone 13 • Lekki</span></div><i class="fa-solid fa-circle-check" style="color:#25D366; margin-left:auto;"></i></div>
+        </div>
+        <div class="review-card">
+          <div class="stars">★★★★★ <span>5.0</span></div>
+          <p>"Ordered Dell XPS 16, got original charger and warranty. Pay on delivery is real."</p>
+          <div class="reviewer"><img src="https://i.pravatar.cc/100?img=45" alt=""><div><strong>Emeka J.</strong><span>Verified • Dell XPS • Abuja</span></div><i class="fa-solid fa-circle-check" style="color:#25D366; margin-left:auto;"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PEOPLE SLIDER (auto marquee) -->
+<section class="people">
+  <div class="container">
+    <div class="people-head">
+      <h3>Trusted by people across Nigeria</h3>
+      <p>Real customers sliding in — join 12,000+ happy buyers</p>
+    </div>
+  </div>
+  <div class="marquee">
+    <div class="marquee-track" id="marqueeTrack">
+      <div class="person"><img src="https://i.pravatar.cc/100?img=1" alt=""><span>Amaka • Ikeja</span><small>iPhone 17</small></div>
+      <div class="person"><img src="https://i.pravatar.cc/100?img=2" alt=""><span>David • Lekki</span><small>S24 Ultra</small></div>
+      <div class="person"><img src="https://i.pravatar.cc/100?img=3" alt=""><span>Blessing • Abuja</span><small>MacBook Air</small></div>
+      <div class="person"><img src="https://i.pravatar.cc/100?img=4" alt=""><span>Musa • PH</span><small>Fold8</small></div>
+      <div class="person"><img src="https://i.pravatar.cc/100?img=5" alt=""><span>Chioma • Ikeja</span><small>iPhone 15</small></div>
+      <div class="person"><img src="https://i.pravatar.cc/100?img=6" alt=""><span>Tunde • Lekki</span><small>Watch 9</small></div>
+      <div class="person"><img src="https://i.pravatar.cc/100?img=7" alt=""><span>Grace • Abuja</span><small>XPS 16</small></div>
+      <div class="person"><img src="https://i.pravatar.cc/100?img=8" alt=""><span>Kola • PH</span><small>iPhone 13</small></div>
+      <div class="person"><img src="https://i.pravatar.cc/100?img=9" alt=""><span>Zainab • Ikeja</span><small>iPhone 16 Pro</small></div>
+      <div class="person"><img src="https://i.pravatar.cc/100?img=10" alt=""><span>Ugo • Lekki</span><small>MacBook Pro</small></div>
+      <!-- duplicate for loop -->
+      <div class="person"><img src="https://i.pravatar.cc/100?img=1" alt=""><span>Amaka • Ikeja</span><small>iPhone 17</small></div>
+      <div class="person"><img src="https://i.pravatar.cc/100?img=2" alt=""><span>David • Lekki</span><small>S24 Ultra</small></div>
+      <div class="person"><img src="https://i.pravatar.cc/100?img=3" alt=""><span>Blessing • Abuja</span><small>MacBook Air</small></div>
+      <div class="person"><img src="https://i.pravatar.cc/100?img=4" alt=""><span>Musa • PH</span><small>Fold8</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- INFO STRIP -->
+<section class="info-strip" style="margin-top:20px;">
+  <div class="container info-grid">
+    <div>
+      <h4><i class="fa-solid fa-store"></i> Visit Our Stores</h4>
+      <p>Computer Village, Ikeja • Lekki • Abuja • PH. Open Mon-Sat 8am-6pm</p>
+    </div>
+    <div>
+      <h4><i class="fa-solid fa-headset"></i> Need Help?</h4>
+      <p><a href="https://wa.me/2347046140421" target="_blank" style="color:white; text-decoration:underline;">WhatsApp: +234 704 614 0421</a> • <a href="mailto:israelsimiloluwa70@gmail.com" style="color:white; text-decoration:underline;">israelsimiloluwa70@gmail.com</a></p>
+    </div>
+    <div>
+      <h4><i class="fa-solid fa-credit-card"></i> Pay On Delivery</h4>
+      <p>Pay with cash, transfer or POS when your order arrives.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <h4>PRISM.</h4>
+      <p>Online shopping for Phones, Laptops & Gadgets. Your trusted store — genuine products, warranty & fast delivery.</p>
+      <p style="margin-top:12px; font-size:13px; line-height:1.8;">
+        <a href="https://wa.me/2347046140421" target="_blank" style="color:#fff; display:flex; align-items:center; gap:8px;"><i class="fa-brands fa-whatsapp" style="color:#25D366;"></i> +234 704 614 0421</a>
+        <a href="mailto:israelsimiloluwa70@gmail.com" style="color:#ccc; display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-envelope"></i> israelsimiloluwa70@gmail.com</a>
+      </p>
+      <div class="social"><a href="https://wa.me/2347046140421" target="_blank"><i class="fa-brands fa-whatsapp"></i></a><i class="fa-brands fa-facebook"></i><i class="fa-brands fa-instagram"></i><i class="fa-brands fa-x-twitter"></i></div>
+    </div>
+    <div>
+      <h5>Mobile Phones</h5>
+      <a href="iphone.html">Apple iPhone</a><a href="samsung.html">Samsung</a>
+    </div>
+    <div>
+      <h5>Computers</h5>
+      <a href="laptops.html">Apple MacBook</a><a href="laptops.html">Dell</a><a href="laptops.html">HP</a><a href="laptops.html">Lenovo</a><a href="accessories.html">Accessories</a>
+    </div>
+    <div>
+      <h5>Customer Service</h5>
+      <a href="#">My Account</a><a href="#">My Orders</a><a href="#">Wishlist</a><a href="#">Return Policy</a><a href="#">FAQs</a>
+    </div>
+    <div class="newsletter">
+      <h5>Newsletter</h5>
+      <p>Get price drops & new arrivals.</p>
+      <form onsubmit="return false"><input type="email" placeholder="your@email.com"><button>Subscribe</button></form>
+      <small>Paystack • Flutterwave • Verve • Mastercard</small>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 PRISM Nigeria — All Rights Reserved. • Privacy • Terms</div>
+</footer>
+
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-head"><h3>Your Cart (<span id="cartCount2">0</span>)</h3><button id="closeCart"><i class="fa-solid fa-xmark"></i></button></div>
+  <div class="cart-items" id="cartItems"><p class="empty">Your cart is empty.</p></div>
+  <div class="cart-foot">
+    <div class="cart-total">Total: <strong id="cartTotal">₦0.00</strong></div>
+    <button class="checkout">Proceed to Checkout →</button>
+    <button class="continue" id="continueShop">Continue Shopping</button>
+  </div>
+</div>
+<a href="https://wa.me/2347046140421" target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp"><i class="fa-brands fa-whatsapp"></i><span>Chat with us</span></a>
+<div class="overlay" id="overlay"></div>
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
