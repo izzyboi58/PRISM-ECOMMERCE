@@ -1,0 +1,6 @@
+.vercel
+node_modules
+whot-game
+NEW PROJECT
+*.log
+.DS_Store

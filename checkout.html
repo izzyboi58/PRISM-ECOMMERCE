@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRISM — Secure Checkout</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<style>
+.checkout-wrap{max-width:1080px;margin:0 auto;padding:24px 16px 60px;display:grid;grid-template-columns:1.3fr 0.7fr;gap:24px}
+.checkout-box{background:white;border:1px solid #eee;border-radius:14px;padding:20px}
+.checkout-box h2{font-size:20px;letter-spacing:-0.02em;margin-bottom:14px}
+.form-field{margin-bottom:14px}
+.form-field label{display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:#333}
+.form-field input{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none}
+.form-field input:focus{border-color:#2e3236}
+.order-item{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:13px}
+.order-item b{white-space:nowrap}
+.summary-total{display:flex;justify-content:space-between;font-size:18px;font-weight:800;padding-top:14px}
+.pay-btn{width:100%;margin-top:16px;background:#2e3236;color:white;border:none;padding:14px;border-radius:999px;font-weight:800;font-size:14px;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:8px}
+.pay-btn:hover{background:#1e2124}
+.pay-btn:disabled{opacity:0.6;cursor:wait}
+.secure-note{text-align:center;font-size:11px;color:#6b7280;margin-top:12px}
+.test-toggle{display:flex;align-items:center;gap:8px;font-size:12px;color:#6b7280;margin-top:12px}
+.empty-cart{text-align:center;padding:40px 0;color:#6b7280}
+@media(max-width:760px){.checkout-wrap{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="container topbar-inner"><div class="topbar-left"><a href="index.html">Home</a><a href="iphone.html">iPhone</a><a href="samsung.html">Samsung</a><a href="laptops.html">Laptops</a></div><div class="topbar-right"><a href="https://wa.me/2347046140421"><i class="fa-brands fa-whatsapp"></i> +234 704 614 0421</a><a href="mailto:israelsimiloluwa70@gmail.com"><i class="fa-solid fa-envelope"></i> israelsimiloluwa70@gmail.com</a></div></div></div>
+<header class="header"><div class="container header-inner"><a href="index.html" class="logo"><span class="logo-mark">PRISM</span><span class="logo-dot">.</span><small>SECURE CHECKOUT</small></a><div class="header-actions" style="margin-left:auto"><span style="font-size:13px;color:#6b7280"><i class="fa-solid fa-lock"></i> Secured by Paystack</span></div></div></header>
+
+<div class="checkout-wrap">
+  <div class="checkout-box">
+    <h2><i class="fa-solid fa-user"></i> Your Details</h2>
+    <form id="checkoutForm">
+      <div class="form-field"><label>Full Name *</label><input type="text" id="custName" placeholder="Your full name" required></div>
+      <div class="form-field"><label>Email Address * (receipt sent here)</label><input type="email" id="custEmail" placeholder="you@email.com" required></div>
+      <div class="form-field"><label>Phone Number *</label><input type="tel" id="custPhone" placeholder="0803 000 0000" required></div>
+      <label class="test-toggle"><input type="checkbox" id="testMode"> Use Paystack TEST mode (no real charge)</label>
+    </form>
+    <p class="secure-note"><i class="fa-solid fa-shield-halved"></i> Your payment is processed securely by Paystack. We never store your card details.</p>
+  </div>
+
+  <div class="checkout-box">
+    <h2><i class="fa-solid fa-receipt"></i> Order Summary</h2>
+    <div id="orderItems"></div>
+    <div class="summary-total"><span>Total</span><span id="orderTotal">₦0.00</span></div>
+    <button class="pay-btn" id="payBtn"><i class="fa-solid fa-lock"></i> Pay with Paystack</button>
+    <p class="secure-note">Pay with Card, Bank Transfer, USSD or POS.<br>Pay on delivery also available — <a href="https://wa.me/2347046140421" style="text-decoration:underline">chat us</a>.</p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script>
+const cart = JSON.parse(localStorage.getItem('prism_cart') || '[]');
+const itemsEl = document.getElementById('orderItems');
+const totalEl = document.getElementById('orderTotal');
+const fmt = n => '₦' + Number(n).toLocaleString('en-NG') + '.00';
+let total = 0;
+
+if (!cart.length) {
+  itemsEl.innerHTML = '<p class="empty-cart">Your cart is empty. <a href="index.html" style="text-decoration:underline">Go shopping</a></p>';
+  document.getElementById('payBtn').disabled = true;
+} else {
+  cart.forEach(i => {
+    total += Number(i.price) * (Number(i.qty) || 1);
+    itemsEl.innerHTML += `<div class="order-item"><span>${i.name} <small>x${i.qty || 1}</small></span><b>${fmt(i.price * (i.qty || 1))}</b></div>`;
+  });
+  totalEl.textContent = fmt(total);
+}
+
+const toastEl = document.getElementById('toast');
+function toast(msg){ toastEl.textContent = msg; toastEl.classList.add('show'); setTimeout(()=>toastEl.classList.remove('show'),3000); }
+
+document.getElementById('payBtn').addEventListener('click', async () => {
+  const name = document.getElementById('custName').value.trim();
+  const email = document.getElementById('custEmail').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  if (!name || !email || !phone) { toast('Please fill in your name, email and phone.'); return; }
+  if (!cart.length) { toast('Your cart is empty.'); return; }
+
+  const btn = document.getElementById('payBtn');
+  btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Redirecting to Paystack...';
+
+  try {
+    const res = await fetch('/api/initialize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, phone, items: cart, testMode: document.getElementById('testMode').checked })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.authorization_url) throw new Error(data.error || 'Could not start payment.');
+
+    // remember reference + mode for the success page
+    sessionStorage.setItem('prism_ref', data.reference);
+    sessionStorage.setItem('prism_test', document.getElementById('testMode').checked ? '1' : '0');
+    localStorage.setItem('prism_last_order', JSON.stringify({ items: cart, total: data.amount, email, name, phone }));
+
+    window.location.href = data.authorization_url;
+  } catch (err) {
+    toast(err.message);
+    btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-lock"></i> Pay with Paystack';
+  }
+});
+</script>
+</body>
+</html>

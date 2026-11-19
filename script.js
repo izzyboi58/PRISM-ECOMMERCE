@@ -68,8 +68,9 @@ document.querySelectorAll('.wish').forEach(b=>{
   });
 });
 
-// cart
-let cart=[];
+// cart (persisted so checkout.html can read it)
+let cart = (()=>{ try { return JSON.parse(localStorage.getItem('prism_cart') || '[]'); } catch(e){ return []; } })();
+function saveCart(){ localStorage.setItem('prism_cart', JSON.stringify(cart)); }
 const cartCount=document.getElementById('cartCount');
 const cartCount2=document.getElementById('cartCount2');
 const cartItems=document.getElementById('cartItems');
@@ -85,6 +86,7 @@ overlay.addEventListener('click', closeCart);
 
 function formatN(n){ return '₦'+Number(n).toLocaleString('en-NG')+'.00'; }
 function renderCart(){
+  saveCart();
   cartCount.textContent=cart.reduce((s,i)=>s+i.qty,0);
   cartCount2.textContent=cart.reduce((s,i)=>s+i.qty,0);
   document.querySelector('.cart-action strong').textContent=formatN(cart.reduce((s,i)=>s+i.price*i.qty,0));
@@ -128,6 +130,16 @@ document.querySelectorAll('.add-cart').forEach(btn=>{
     toast(name+' added to cart');
   });
 });
+
+// checkout button -> secure Paystack checkout page
+const checkoutBtn = document.querySelector('.checkout');
+if(checkoutBtn){
+  checkoutBtn.addEventListener('click', ()=>{
+    if(cart.length === 0){ toast('Your cart is empty.'); return; }
+    closeCart();
+    window.location.href = 'checkout.html';
+  });
+}
 
 // toast
 const toastEl=document.getElementById('toast');
