@@ -17,12 +17,13 @@
 .status-card h1{font-size:26px;letter-spacing:-0.03em}
 .status-card p{color:#6b7280;margin-top:10px;line-height:1.6;font-size:14px}
 .receipt{margin-top:20px;background:#f8f8f8;border-radius:12px;padding:16px;text-align:left;font-size:13px}
-.receipt div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee}
+.receipt div{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid #eee}
 .receipt div:last-child{border:none}
 .status-actions{margin-top:22px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .status-actions a{padding:12px 20px;border-radius:999px;font-weight:700;font-size:13px}
 .btn-dark{background:#2e3236;color:white}
 .btn-light{background:white;border:1px solid #2e3236;color:#2e3236}
+.retry{background:none;border:1px solid #ddd;border-radius:999px;padding:10px 18px;font-weight:700;cursor:pointer;font-size:13px}
 </style>
 </head>
 <body>
@@ -48,51 +49,78 @@ const message = document.getElementById('message');
 const receiptBox = document.getElementById('receiptBox');
 const actions = document.getElementById('actions');
 const fmt = n => '₦' + Number(n).toLocaleString('en-NG') + '.00';
+const params = new URLSearchParams(location.search);
 
-async function verify() {
-  const params = new URLSearchParams(location.search);
-  const reference = params.get('reference') || sessionStorage.getItem('prism_ref');
-  const test = params.get('test') || sessionStorage.getItem('prism_test') || '0';
-  if (!reference) { fail('No payment reference found.'); return; }
+let lastOrder = null;
+try { lastOrder = JSON.parse(localStorage.getItem('prism_last_order') || 'null'); } catch (e) { lastOrder = null; }
 
-  try {
-    const res = await fetch(`/api/verify?reference=${encodeURIComponent(reference)}&test=${test}`);
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Verification failed.');
+const reference = params.get('reference') || params.get('trxref') || sessionStorage.getItem('prism_ref') || lastOrder?.reference;
+const mode = params.get('mode') || (sessionStorage.getItem('prism_test') === '1' ? 'test' : 'live');
 
-    if (data.status === 'success') {
-      icon.className = 'status-icon ok';
-      icon.innerHTML = '<i class="fa-solid fa-check"></i>';
-      title.textContent = 'Payment Successful!';
-      message.innerHTML = `Thank you <strong>${data.customer?.name || 'for shopping with PRISM'}</strong>. Your order is confirmed. A receipt has been sent to <strong>${data.customer?.email || 'your email'}</strong>.`;
-      receiptBox.style.display = 'block';
-      receiptBox.innerHTML = `
-        <div><span>Reference</span><b>${data.reference}</b></div>
-        <div><span>Amount Paid</span><b>${fmt(data.amount)}</b></div>
-        <div><span>Status</span><b style="color:#1a9c4a">Successful</b></div>
-        ${(data.items||[]).length ? `<div><span>Items</span><b>${data.items.map(i=>i.name+' x'+(i.qty||1)).join(', ')}</b></div>` : ''}
-      `;
-      actions.style.display = 'flex';
-      // Clear the cart only AFTER a confirmed success
-      localStorage.removeItem('prism_cart');
-      localStorage.removeItem('prism_last_order');
-    } else {
-      fail(`Your payment status is "${data.status}". If you were charged, please contact us with reference ${data.reference}.`);
-    }
-  } catch (err) {
-    fail(err.message + ' If you completed payment, contact us on WhatsApp with your reference.');
+function showResult(state, heading, text, receipt) {
+  icon.className = 'status-icon ' + (state === 'success' ? 'ok' : state === 'wait' ? 'wait' : 'fail');
+  icon.innerHTML = state === 'success' ? '<i class="fa-solid fa-check"></i>'
+    : state === 'fail' ? '<i class="fa-solid fa-xmark"></i>'
+    : '<i class="fa-solid fa-spinner fa-spin"></i>';
+  title.textContent = heading;
+  message.innerHTML = text;
+  if (receipt) {
+    receiptBox.style.display = 'block';
+    receiptBox.innerHTML = receipt;
   }
-}
-
-function fail(msg) {
-  icon.className = 'status-icon fail';
-  icon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-  title.textContent = 'Payment Not Completed';
-  message.textContent = msg;
   actions.style.display = 'flex';
 }
 
-verify();
+async function verify(attempt) {
+  if (!reference) {
+    showResult('fail', 'No payment reference found',
+      'If you completed a payment, please contact us on WhatsApp so we can check it for you.');
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/verify?reference=' + encodeURIComponent(reference) + '&mode=' + mode);
+    const data = await res.json();
+
+    if (!res.ok) {
+      // Paystack can briefly return "not found" right after redirect - retry once.
+      if (attempt === 0 && /not found|pending/i.test(data.error || '')) {
+        setTimeout(() => verify(1), 1500);
+        return;
+      }
+      throw new Error(data.error || 'Verification failed.');
+    }
+
+    if (data.success || data.status === 'success') {
+      const items = (data.items && data.items.length) ? data.items : (lastOrder?.items || []);
+      const lines = [
+        '<div><span>Reference</span><b>' + data.reference + '</b></div>',
+        '<div><span>Amount Paid</span><b>' + fmt(data.amount) + '</b></div>',
+        '<div><span>Status</span><b style="color:#1a9c4a">Successful</b></div>'
+      ];
+      if (items.length) lines.push('<div><span>Items</span><b>' + items.map(i => i.name + ' x' + (i.qty || 1)).join(', ') + '</b></div>');
+      if (data.customer?.email) lines.push('<div><span>Email</span><b>' + data.customer.email + '</b></div>');
+
+      showResult('success', 'Payment Successful!',
+        'Thank you, <strong>' + (data.customer?.name || 'for shopping with PRISM') + '</strong>. Your order is confirmed. We will contact you shortly on ' + (data.customer?.phone || 'the number you provided') + '.',
+        lines.join(''));
+
+      // Clear the cart ONLY after a confirmed success.
+      localStorage.removeItem('prism_cart');
+      localStorage.removeItem('prism_last_order');
+    } else {
+      showResult('fail', 'Payment Not Completed',
+        'Your payment status is "<strong>' + data.status + '</strong>". If you were charged, contact us on WhatsApp with reference <strong>' + data.reference + '</strong>.',
+        '<div><span>Reference</span><b>' + data.reference + '</b></div>');
+    }
+  } catch (err) {
+    showResult('fail', 'Could Not Verify Payment',
+      (err.message || 'Please try again.') + ' If you completed payment, contact us on WhatsApp with your reference.',
+      reference ? '<div><span>Reference</span><b>' + reference + '</b></div>' : '');
+  }
+}
+
+verify(0);
 </script>
 </body>
 </html>

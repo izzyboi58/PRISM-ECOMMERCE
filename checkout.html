@@ -24,6 +24,9 @@
 .secure-note{text-align:center;font-size:11px;color:#6b7280;margin-top:12px}
 .test-toggle{display:flex;align-items:center;gap:8px;font-size:12px;color:#6b7280;margin-top:12px}
 .empty-cart{text-align:center;padding:40px 0;color:#6b7280}
+.error-box{display:none;background:#fff1f1;border:1px solid #ffcaca;color:#b3261e;padding:12px;border-radius:8px;font-size:13px;margin-top:14px}
+.steps{font-size:12px;color:#6b7280;display:flex;gap:6px;align-items:center;margin-bottom:16px}
+.steps b{color:#2e3236}
 @media(max-width:760px){.checkout-wrap{grid-template-columns:1fr}}
 </style>
 </head>
@@ -33,13 +36,13 @@
 
 <div class="checkout-wrap">
   <div class="checkout-box">
+    <div class="steps"><b>1. Cart</b> → <b>2. Your details</b> → <b>3. Payment</b></div>
     <h2><i class="fa-solid fa-user"></i> Your Details</h2>
-    <form id="checkoutForm">
-      <div class="form-field"><label>Full Name *</label><input type="text" id="custName" placeholder="Your full name" required></div>
-      <div class="form-field"><label>Email Address * (receipt sent here)</label><input type="email" id="custEmail" placeholder="you@email.com" required></div>
-      <div class="form-field"><label>Phone Number *</label><input type="tel" id="custPhone" placeholder="0803 000 0000" required></div>
-      <label class="test-toggle"><input type="checkbox" id="testMode"> Use Paystack TEST mode (no real charge)</label>
-    </form>
+    <div class="form-field"><label>Full Name *</label><input type="text" id="custName" placeholder="Your full name" required></div>
+    <div class="form-field"><label>Email Address * (receipt sent here)</label><input type="email" id="custEmail" placeholder="you@email.com" required></div>
+    <div class="form-field"><label>Phone Number *</label><input type="tel" id="custPhone" placeholder="0803 000 0000" required></div>
+    <label class="test-toggle"><input type="checkbox" id="testMode"> Use Paystack TEST mode (no real charge)</label>
+    <div class="error-box" id="errorBox"></div>
     <p class="secure-note"><i class="fa-solid fa-shield-halved"></i> Your payment is processed securely by Paystack. We never store your card details.</p>
   </div>
 
@@ -48,60 +51,81 @@
     <div id="orderItems"></div>
     <div class="summary-total"><span>Total</span><span id="orderTotal">₦0.00</span></div>
     <button class="pay-btn" id="payBtn"><i class="fa-solid fa-lock"></i> Pay with Paystack</button>
-    <p class="secure-note">Pay with Card, Bank Transfer, USSD or POS.<br>Pay on delivery also available — <a href="https://wa.me/2347046140421" style="text-decoration:underline">chat us</a>.</p>
+    <p class="secure-note">Pay with Card, Bank Transfer, USSD or POS.<br>Prefer pay on delivery? <a href="https://wa.me/2347046140421" style="text-decoration:underline">Chat us</a>.</p>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 <script>
-const cart = JSON.parse(localStorage.getItem('prism_cart') || '[]');
+const fmt = n => '₦' + Number(n).toLocaleString('en-NG') + '.00';
+const errorBox = document.getElementById('errorBox');
+function showError(msg) {
+  errorBox.textContent = msg;
+  errorBox.style.display = 'block';
+  errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+function clearError() { errorBox.style.display = 'none'; errorBox.textContent = ''; }
+
+let cart = [];
+try { cart = JSON.parse(localStorage.getItem('prism_cart') || '[]'); } catch (e) { cart = []; }
+if (!Array.isArray(cart)) cart = [];
+
 const itemsEl = document.getElementById('orderItems');
 const totalEl = document.getElementById('orderTotal');
-const fmt = n => '₦' + Number(n).toLocaleString('en-NG') + '.00';
+const payBtn = document.getElementById('payBtn');
 let total = 0;
 
 if (!cart.length) {
-  itemsEl.innerHTML = '<p class="empty-cart">Your cart is empty. <a href="index.html" style="text-decoration:underline">Go shopping</a></p>';
-  document.getElementById('payBtn').disabled = true;
+  itemsEl.innerHTML = '<p class="empty-cart">Your cart is empty.<br><a href="index.html" style="text-decoration:underline">Go shopping →</a></p>';
+  payBtn.disabled = true;
 } else {
   cart.forEach(i => {
-    total += Number(i.price) * (Number(i.qty) || 1);
-    itemsEl.innerHTML += `<div class="order-item"><span>${i.name} <small>x${i.qty || 1}</small></span><b>${fmt(i.price * (i.qty || 1))}</b></div>`;
+    const qty = Number(i.qty) || 1;
+    total += Number(i.price) * qty;
+    itemsEl.innerHTML += '<div class="order-item"><span>' + i.name + ' <small>x' + qty + '</small></span><b>' + fmt(i.price * qty) + '</b></div>';
   });
   totalEl.textContent = fmt(total);
 }
 
-const toastEl = document.getElementById('toast');
-function toast(msg){ toastEl.textContent = msg; toastEl.classList.add('show'); setTimeout(()=>toastEl.classList.remove('show'),3000); }
-
 document.getElementById('payBtn').addEventListener('click', async () => {
+  clearError();
   const name = document.getElementById('custName').value.trim();
   const email = document.getElementById('custEmail').value.trim();
   const phone = document.getElementById('custPhone').value.trim();
-  if (!name || !email || !phone) { toast('Please fill in your name, email and phone.'); return; }
-  if (!cart.length) { toast('Your cart is empty.'); return; }
 
-  const btn = document.getElementById('payBtn');
-  btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Redirecting to Paystack...';
+  if (!name) { showError('Please enter your full name.'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError('Please enter a valid email address.'); return; }
+  if (phone.replace(/\D/g, '').length < 10) { showError('Please enter a valid phone number.'); return; }
+  if (!cart.length) { showError('Your cart is empty.'); return; }
+
+  const testMode = document.getElementById('testMode').checked;
+  payBtn.disabled = true;
+  payBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Redirecting to Paystack...';
 
   try {
     const res = await fetch('/api/initialize', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, phone, items: cart, testMode: document.getElementById('testMode').checked })
+      body: JSON.stringify({ name, email, phone, items: cart, testMode })
     });
     const data = await res.json();
-    if (!res.ok || !data.authorization_url) throw new Error(data.error || 'Could not start payment.');
+    if (!res.ok || !data.authorization_url) throw new Error(data.error || 'Could not start payment. Please try again.');
 
-    // remember reference + mode for the success page
+    localStorage.setItem('prism_last_order', JSON.stringify({
+      items: data.items || cart,
+      total: data.amount || total,
+      email, name, phone,
+      reference: data.reference,
+      mode: testMode ? 'test' : 'live'
+    }));
     sessionStorage.setItem('prism_ref', data.reference);
-    sessionStorage.setItem('prism_test', document.getElementById('testMode').checked ? '1' : '0');
-    localStorage.setItem('prism_last_order', JSON.stringify({ items: cart, total: data.amount, email, name, phone }));
+    sessionStorage.setItem('prism_test', testMode ? '1' : '0');
 
     window.location.href = data.authorization_url;
   } catch (err) {
-    toast(err.message);
-    btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-lock"></i> Pay with Paystack';
+    showError(err.message);
+    payBtn.disabled = false;
+    payBtn.innerHTML = '<i class="fa-solid fa-lock"></i> Pay with Paystack';
   }
 });
 </script>
