@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRISM — Live Payment Demo (₦500)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<style>
+.demo-wrap{max-width:520px;margin:0 auto;padding:40px 16px 60px}
+.demo-card{background:white;border:1px solid #eee;border-radius:16px;padding:24px;box-shadow:0 12px 32px rgba(0,0,0,0.05)}
+.demo-card h1{font-size:24px;letter-spacing:-0.03em}
+.badge-live{display:inline-block;background:#1a9c4a;color:white;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:6px 10px;border-radius:999px;font-weight:800;margin-bottom:12px}
+.warning{background:#fff8e6;border:1px solid #ffe4a3;color:#8a5a00;padding:12px;border-radius:10px;font-size:12px;line-height:1.5;margin-top:14px}
+.field{margin-top:14px}
+.field label{display:block;font-size:12px;font-weight:600;margin-bottom:6px}
+.field input{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none}
+.field input:focus{border-color:#2e3236}
+.amount{display:flex;justify-content:space-between;align-items:center;background:#f8f8f8;border-radius:10px;padding:14px;margin-top:18px}
+.amount strong{font-size:22px}
+.pay{width:100%;margin-top:16px;background:#1a9c4a;color:white;border:none;padding:14px;border-radius:999px;font-weight:800;font-size:14px;cursor:pointer}
+.pay:disabled{opacity:0.6;cursor:wait}
+.error{display:none;margin-top:12px;background:#fff1f1;border:1px solid #ffcaca;color:#b3261e;padding:10px;border-radius:8px;font-size:13px}
+.back{display:block;text-align:center;margin-top:14px;font-size:12px;color:#6b7280;text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="header"><div class="container header-inner"><a href="index.html" class="logo"><span class="logo-mark">PRISM</span><span class="logo-dot">.</span><small>LIVE PAYMENT DEMO</small></a><div style="margin-left:auto;font-size:12px;color:#6b7280"><i class="fa-brands fa-whatsapp" style="color:#25D366"></i> +234 704 614 0421</div></div></div>
+
+<div class="demo-wrap">
+  <div class="demo-card">
+    <span class="badge-live">● LIVE MODE — REAL CHARGE</span>
+    <h1>Test a ₦500 payment</h1>
+    <p style="color:#6b7280;font-size:13px;line-height:1.6;margin-top:8px">This uses your real Paystack live account. Enter your details, then enter your card on the Paystack page to complete a real ₦500 charge.</p>
+
+    <div class="warning"><i class="fa-solid fa-circle-exclamation"></i> <strong>Important:</strong> This will charge your card ₦500. Use a card you own. You will be redirected to Paystack's secure checkout to enter card details — PRISM never sees or stores them.</div>
+
+    <div class="field"><label>Full Name</label><input id="name" value="PRISM Demo Buyer"></div>
+    <div class="field"><label>Email Address</label><input id="email" type="email" value="demo@prism.ng"></div>
+    <div class="field"><label>Phone Number</label><input id="phone" value="08030000000"></div>
+
+    <div class="amount"><span>Demo Payment (1 item)</span><strong>₦500.00</strong></div>
+    <button class="pay" id="pay"><i class="fa-solid fa-lock"></i> Pay ₦500 with Paystack (LIVE)</button>
+    <div class="error" id="err"></div>
+    <a href="index.html" class="back">← Back to store</a>
+  </div>
+</div>
+
+<script>
+const err = document.getElementById('err');
+document.getElementById('pay').addEventListener('click', async () => {
+  err.style.display = 'none';
+  const btn = document.getElementById('pay');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Opening Paystack...';
+
+  try {
+    const res = await fetch('/api/initialize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        items: [{ name: 'Demo Payment 500', price: 500, qty: 1 }],
+        testMode: false
+      })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.authorization_url) throw new Error(data.error || 'Could not start payment.');
+
+    localStorage.setItem('prism_last_order', JSON.stringify({
+      items: data.items || [{ name: 'Demo Payment 500', price: 500, qty: 1 }],
+      total: 500,
+      email: document.getElementById('email').value.trim(),
+      name: document.getElementById('name').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      reference: data.reference,
+      mode: 'live'
+    }));
+
+    window.location.href = data.authorization_url;
+  } catch (e) {
+    err.textContent = e.message;
+    err.style.display = 'block';
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-lock"></i> Pay ₦500 with Paystack (LIVE)';
+  }
+});
+</script>
+</body>
+</html>

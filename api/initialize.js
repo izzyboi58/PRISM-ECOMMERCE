@@ -42,7 +42,9 @@ const CATALOG = {
   'ipad pro 12.9 m2': 1250000,
   'galaxy tab a9': 291000,
   'redmi pad pro': 428800,
-  'ipad air': 680000
+  'ipad air': 680000,
+  // Demo / live payment test item
+  'demo payment 500': 500
 };
 
 module.exports = async function handler(req, res) {
