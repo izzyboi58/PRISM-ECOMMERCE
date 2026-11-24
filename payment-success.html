@@ -9,22 +9,23 @@
 <link rel="stylesheet" href="style.css">
 <style>
 .status-wrap{max-width:600px;margin:0 auto;padding:60px 16px;text-align:center}
-.status-card{background:white;border:1px solid #eee;border-radius:18px;padding:40px 24px}
+.status-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:40px 24px}
 .status-icon{width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:32px}
 .status-icon.ok{background:#e8f8ee;color:#1a9c4a}
 .status-icon.fail{background:#fdecec;color:#d13a3a}
-.status-icon.wait{background:#eef3ff;color:#2e3236}
+.status-icon.wait{background:var(--surface-2);color:var(--accent)}
 .status-card h1{font-size:26px;letter-spacing:-0.03em}
-.status-card p{color:#6b7280;margin-top:10px;line-height:1.6;font-size:14px}
-.receipt{margin-top:20px;background:#f8f8f8;border-radius:12px;padding:16px;text-align:left;font-size:13px}
-.receipt div{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid #eee}
+.status-card p{color:var(--muted);margin-top:10px;line-height:1.6;font-size:14px}
+.receipt{margin-top:20px;background:var(--surface-2);border-radius:12px;padding:16px;text-align:left;font-size:13px}
+.receipt div{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid var(--border)}
 .receipt div:last-child{border:none}
 .status-actions{margin-top:22px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .status-actions a{padding:12px 20px;border-radius:999px;font-weight:700;font-size:13px}
-.btn-dark{background:#2e3236;color:white}
-.btn-light{background:white;border:1px solid #2e3236;color:#2e3236}
+.btn-dark{background:var(--accent);color:var(--on-accent)}
+.btn-light{background:var(--surface);border:1px solid var(--accent);color:var(--accent)}
 .retry{background:none;border:1px solid #ddd;border-radius:999px;padding:10px 18px;font-weight:700;cursor:pointer;font-size:13px}
 </style>
+  <script src="theme.js" defer></script>
 </head>
 <body>
 <div class="header"><div class="container header-inner"><a href="index.html" class="logo"><span class="logo-mark">PRISM</span><span class="logo-dot">.</span><small>PAYMENT STATUS</small></a></div></div>

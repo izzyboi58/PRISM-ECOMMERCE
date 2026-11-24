@@ -9,30 +9,31 @@
 <link rel="stylesheet" href="style.css">
 <style>
 .checkout-wrap{max-width:1080px;margin:0 auto;padding:24px 16px 60px;display:grid;grid-template-columns:1.3fr 0.7fr;gap:24px}
-.checkout-box{background:white;border:1px solid #eee;border-radius:14px;padding:20px}
+.checkout-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px}
 .checkout-box h2{font-size:20px;letter-spacing:-0.02em;margin-bottom:14px}
 .form-field{margin-bottom:14px}
-.form-field label{display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:#333}
-.form-field input{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none}
-.form-field input:focus{border-color:#2e3236}
-.order-item{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:13px}
+.form-field label{display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--text)}
+.form-field input{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;font-size:14px;outline:none;background:var(--surface);color:var(--text)}
+.form-field input:focus{border-color:var(--accent)}
+.order-item{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
 .order-item b{white-space:nowrap}
 .summary-total{display:flex;justify-content:space-between;font-size:18px;font-weight:800;padding-top:14px}
-.pay-btn{width:100%;margin-top:16px;background:#2e3236;color:white;border:none;padding:14px;border-radius:999px;font-weight:800;font-size:14px;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:8px}
-.pay-btn:hover{background:#1e2124}
+.pay-btn{width:100%;margin-top:16px;background:var(--accent);color:var(--on-accent);border:none;padding:14px;border-radius:999px;font-weight:800;font-size:14px;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:8px}
+.pay-btn:hover{background:var(--accent-dark)}
 .pay-btn:disabled{opacity:0.6;cursor:wait}
-.secure-note{text-align:center;font-size:11px;color:#6b7280;margin-top:12px}
-.test-toggle{display:flex;align-items:center;gap:8px;font-size:12px;color:#6b7280;margin-top:12px}
-.empty-cart{text-align:center;padding:40px 0;color:#6b7280}
+.secure-note{text-align:center;font-size:11px;color:var(--muted);margin-top:12px}
+.test-toggle{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin-top:12px}
+.empty-cart{text-align:center;padding:40px 0;color:var(--muted)}
 .error-box{display:none;background:#fff1f1;border:1px solid #ffcaca;color:#b3261e;padding:12px;border-radius:8px;font-size:13px;margin-top:14px}
-.steps{font-size:12px;color:#6b7280;display:flex;gap:6px;align-items:center;margin-bottom:16px}
-.steps b{color:#2e3236}
+.steps{font-size:12px;color:var(--muted);display:flex;gap:6px;align-items:center;margin-bottom:16px}
+.steps b{color:var(--accent)}
 @media(max-width:760px){.checkout-wrap{grid-template-columns:1fr}}
 </style>
+  <script src="theme.js" defer></script>
 </head>
 <body>
 <div class="topbar"><div class="container topbar-inner"><div class="topbar-left"><a href="index.html">Home</a><a href="iphone.html">iPhone</a><a href="samsung.html">Samsung</a><a href="laptops.html">Laptops</a></div><div class="topbar-right"><a href="https://wa.me/2347046140421"><i class="fa-brands fa-whatsapp"></i> +234 704 614 0421</a><a href="mailto:israelsimiloluwa70@gmail.com"><i class="fa-solid fa-envelope"></i> israelsimiloluwa70@gmail.com</a></div></div></div>
-<header class="header"><div class="container header-inner"><a href="index.html" class="logo"><span class="logo-mark">PRISM</span><span class="logo-dot">.</span><small>SECURE CHECKOUT</small></a><div class="header-actions" style="margin-left:auto"><span style="font-size:13px;color:#6b7280"><i class="fa-solid fa-lock"></i> Secured by Paystack</span></div></div></header>
+<header class="header"><div class="container header-inner"><a href="index.html" class="logo"><span class="logo-mark">PRISM</span><span class="logo-dot">.</span><small>SECURE CHECKOUT</small></a><div class="header-actions" style="margin-left:auto"><span style="font-size:13px;color:var(--muted)"><i class="fa-solid fa-lock"></i> Secured by Paystack</span></div></div></header>
 
 <div class="checkout-wrap">
   <div class="checkout-box">
